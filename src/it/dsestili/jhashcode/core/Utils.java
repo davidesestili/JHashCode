@@ -29,6 +29,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
 import java.util.Calendar;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -43,6 +44,8 @@ public class Utils
 	private static final long HOUR = 3600000;
 	private static final long MINUTE = 60000;
 	private static final long SECOND = 1000;
+
+	private static final String COMPUTERNAME = "COMPUTERNAME";
 	
 	public static String getElapsedTime(long elapsed, boolean millis)
 	{
@@ -134,7 +137,7 @@ public class Utils
 		dateTime += "-" + String.format("%02d", calendar.get(Calendar.MINUTE));
 		dateTime += "-" + String.format("%02d", calendar.get(Calendar.SECOND));
 		
-		String outputFileName = fileName + mode + dateTime + "." + extension;
+		String outputFileName = getMachineName() + fileName + mode + dateTime + "." + extension;
 		return outputFileName;
 	}
 	
@@ -215,5 +218,30 @@ public class Utils
 		String output = formatter.format(messageArguments);
 		
 		return output;
+	}
+
+	/*
+	 * This function has been written by Davide Sestili in 2005
+	 */
+	public static boolean isNullOrBlank(String param) 
+	{
+	    return param == null || param.trim().length() == 0;
+	}
+
+	private static String getMachineName()
+	{
+		String result = "";
+		
+		Map<String, String> env = System.getenv();
+		if(env != null)
+		{
+			String computerName = env.get(COMPUTERNAME);
+			if(!isNullOrBlank(computerName))
+			{
+				result = computerName + "_";
+			}
+		}
+		
+		return result;
 	}
 }
