@@ -28,6 +28,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +37,8 @@ import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 @SuppressWarnings("serial")
@@ -88,7 +91,7 @@ public class HashListWindow extends JDialog
 		fileNotSaved = MainWindow.getResourceBundle().getString("hashListWindow.notSaved");
 		fileNotSavedTitle = MainWindow.getResourceBundle().getString("hashListWindow.notSaved.title");
 
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		setTitle(title);
 		setBounds(100, 100, 396, 470);
@@ -96,70 +99,77 @@ public class HashListWindow extends JDialog
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
-		{
-			Vector<String> columnNames = new Vector<String>();
-			columnNames.add(columnFile);
-			columnNames.add(columnHash);
-			
-			JTable table = new JTable(hashList, columnNames);
-			table.setEnabled(false);
-			
-			scrollPane = new JScrollPane(table);
 
-			contentPanel.add(scrollPane, BorderLayout.CENTER);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		Vector<String> columnNames = new Vector<String>();
+		columnNames.add(columnFile);
+		columnNames.add(columnHash);
+		
+		JTable table = new JTable(hashList, columnNames);
+		table.setEnabled(false);
+		
+		scrollPane = new JScrollPane(table);
+
+		contentPanel.add(scrollPane, BorderLayout.CENTER);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		JButton okButton = new JButton(okButtonText);
+		okButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
 			{
-				JButton okButton = new JButton(okButtonText);
-				okButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) 
-					{
-						if(!saved)
-						{
-							int result = JOptionPane.showConfirmDialog(null, fileNotSaved, fileNotSavedTitle, JOptionPane.YES_NO_OPTION);
-							if(result == JOptionPane.NO_OPTION)
-							{
-								return;
-							}
-						}
-						
-						dispose();
-					}
-				});
-				{
-					JButton btnSaveToFile = new JButton(saveToFileButtonText);
-					btnSaveToFile.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) 
-						{
-							try 
-							{
-								if(Utils.saveHashToFile(frame, hashList, hashedFile, algorithm, folderMode))
-								{
-									saved = true;
-								}
-							}
-							catch(Throwable e) 
-							{
-								JOptionPane.showMessageDialog(null, errorOccurred, errorOccurred, JOptionPane.ERROR_MESSAGE);
-								
-								e.printStackTrace();
-							}
-						}
-					});
-					buttonPane.add(btnSaveToFile);
-				}
-				okButton.setActionCommand(okButtonText);
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				promptBeforeClosing();
 			}
-		}
+		});
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) 
+			{
+				promptBeforeClosing();
+			}
+		});
+
+		JButton btnSaveToFile = new JButton(saveToFileButtonText);
+		btnSaveToFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				try 
+				{
+					if(Utils.saveHashToFile(frame, hashList, hashedFile, algorithm, folderMode))
+					{
+						saved = true;
+					}
+				}
+				catch(Throwable e) 
+				{
+					JOptionPane.showMessageDialog(null, errorOccurred, errorOccurred, JOptionPane.ERROR_MESSAGE);
+					
+					e.printStackTrace();
+				}
+			}
+		});
+		buttonPane.add(btnSaveToFile);
+		okButton.setActionCommand(okButtonText);
+		buttonPane.add(okButton);
+		getRootPane().setDefaultButton(okButton);
 		
 		setSize(1000, 700);
 		MainWindow.centerScreen(this);
 		setVisible(true);		
 	}
 
+	private void promptBeforeClosing()
+	{
+		if(!saved)
+		{
+			int result = JOptionPane.showConfirmDialog(null, fileNotSaved, fileNotSavedTitle, JOptionPane.YES_NO_OPTION);
+			if(result == JOptionPane.NO_OPTION)
+			{
+				return;
+			}
+		}
+		
+		dispose();
+	}
 }
