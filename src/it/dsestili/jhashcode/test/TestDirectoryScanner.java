@@ -35,7 +35,7 @@ public class TestDirectoryScanner implements IScanProgressListener
 	{
 		try
 		{
-			MainWindow.setSpanishLocale();
+			MainWindow.setItalianLocale();
 			
 			checkIsEmpty(directoryParam);
 			

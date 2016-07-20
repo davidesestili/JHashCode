@@ -44,7 +44,7 @@ public class TestSingleFile implements IProgressListener
 		
 		try
 		{
-			MainWindow.setSpanishLocale();
+			MainWindow.setItalianLocale();
 			
 			if(fileName == null || fileName.isEmpty())
 			{
