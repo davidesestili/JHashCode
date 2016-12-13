@@ -54,468 +54,353 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
-public class MainWindow extends JFrame 
-{
-	private WorkerThread workerThread = null;
-	
-	private static JMenuItem mnFile, menuExit, mnHash, copyItem, pasteItem, mnLEF, systemLEF, nimbusLEF, metalLEF, mnNewMenu, menuAbout, mnLanguage, mnEnglish, mnItalian, mnSpanish;
-	private JPanel contentPane;
-	private InputPanel inputPanel;
-	private StatusPanel statusPanel;
-	private JButton btnStart;
-	private static final String NAME_AND_VERSION = "JHashCode 3.0a";
-	private static Locale enLocale, itLocale, esLocale, currentLocale;
-	private static ResourceBundle resourceBundle;
-	private static String lookAndFeelNotFound;
-	private static String notFound;
-	private static String cancelOperation, cancelOperationTitle;
-	private static String quit, quitTitle;
-	
-	public static JMenuItem getLanguageMenu()
-	{
-		return mnLanguage;
-	}
-	
-	public static ResourceBundle getResourceBundle()
-	{
-		if(resourceBundle == null)
-		{
-			resourceBundle = ResourceBundle.getBundle("MessagesBundle", currentLocale);
-		}
-		
-		return resourceBundle;
-	}
+public class MainWindow extends JFrame {
 
-	public static Locale getCurrentLocale()
-	{
-		return currentLocale;
-	}
+    private WorkerThread workerThread = null;
+    private static JMenuItem mnFile, menuExit, mnHash, copyItem, pasteItem, mnLEF, systemLEF, nimbusLEF, metalLEF, mnNewMenu, menuAbout, mnLanguage, mnEnglish, mnItalian, mnSpanish;
+    private JPanel contentPane;
+    private InputPanel inputPanel;
+    private StatusPanel statusPanel;
+    private JButton btnStart;
+    private static final String NAME_AND_VERSION = "JHashCode 3.0a";
+    private static Locale enLocale, itLocale, esLocale, currentLocale;
+    private static ResourceBundle resourceBundle;
+    private static String lookAndFeelNotFound;
+    private static String notFound;
+    private static String cancelOperation, cancelOperationTitle;
+    private static String quit, quitTitle;
 
-	static
-	{
-	    enLocale = new Locale("en","US");
-	    itLocale = new Locale("it", "IT");
-	    esLocale = new Locale("es", "ES");
-	    
-		setEnglishLocale();
-	}
+    public static JMenuItem getLanguageMenu() {
+        return mnLanguage;
+    }
 
-	public static void setEnglishLocale()
-	{
-		resourceBundle = null;
-		currentLocale = enLocale;
-    	Locale.setDefault(currentLocale);
-	}
+    public static ResourceBundle getResourceBundle() {
+        if (resourceBundle == null) {
+            resourceBundle = ResourceBundle.getBundle("MessagesBundle", currentLocale);
+        }
+        return resourceBundle;
+    }
 
-	private void setEnglishLanguage()
-	{
-		setEnglishLocale();
-		internationalize();
-	}
+    public static Locale getCurrentLocale() {
+        return currentLocale;
+    }
 
-	public static void setItalianLocale()
-	{
-		resourceBundle = null;
-    	currentLocale = itLocale;
-    	Locale.setDefault(currentLocale);
-	}
-	
-	private void setItalianLanguage()
-	{
-		setItalianLocale();
-		internationalize();
-	}
+    static {
+        enLocale = new Locale("en", "US");
+        itLocale = new Locale("it", "IT");
+        esLocale = new Locale("es", "ES");
+        setEnglishLocale();
+    }
 
-	public static void setSpanishLocale()
-	{
-		resourceBundle = null;
-    	currentLocale = esLocale;
-    	Locale.setDefault(currentLocale);
-	}
-	
-	private void setSpanishLanguage()
-	{
-		setSpanishLocale();
-		internationalize();
-	}
+    public static void setEnglishLocale() {
+        resourceBundle = null;
+        currentLocale = enLocale;
+        Locale.setDefault(currentLocale);
+    }
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try 
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} 
-		catch(Throwable e) 
-		{
-			System.out.println(lookAndFeelNotFound);
-		}
+    private void setEnglishLanguage() {
+        setEnglishLocale();
+        internationalize();
+    }
 
-		EventQueue.invokeLater(new Runnable() {
-			public void run() 
-			{
-				try 
-				{
-					MainWindow frame = GUIFactory.MainWindowFactory.getInstance();
-					centerScreen(frame);
-					frame.setIconImage(AboutDialog.getBufferedImage(this));
-					frame.setVisible(true);
-					Runtime.getRuntime().addShutdownHook(new ShutdownHook(frame));
-				} 
-				catch(Exception e) 
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public static void setItalianLocale() {
+        resourceBundle = null;
+        currentLocale = itLocale;
+        Locale.setDefault(currentLocale);
+    }
 
-	/*
-	 * This function has been written by Davide Sestili in 2005
-	 */
-	public static void centerScreen(Component window)
-	{
-	    Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-	    
-	    int w = window.getSize().width;
-	    int h = window.getSize().height;
-	    int x = (dim.width - w) / 2;
-	    int y = (dim.height - h) / 2;
-	    
-	    window.setLocation(x, y);	
-	}
+    private void setItalianLanguage() {
+        setItalianLocale();
+        internationalize();
+    }
 
-	public void closeApp()
-	{
-		if(workerThread != null)
-		{
-			workerThread.interruptOperation();
-			try 
-			{
-				workerThread.join();
-			} 
-			catch(InterruptedException e) 
-			{
-				e.printStackTrace();
-			}
-		}
-	}
+    public static void setSpanishLocale() {
+        resourceBundle = null;
+        currentLocale = esLocale;
+        Locale.setDefault(currentLocale);
+    }
 
-	private void promptBeforeExit()
-	{
-		int result = JOptionPane.showConfirmDialog(null, quit, quitTitle, JOptionPane.YES_NO_OPTION);
-		if(result == JOptionPane.YES_OPTION)
-		{
-			System.exit(0);
-		}
-	}
+    private void setSpanishLanguage() {
+        setSpanishLocale();
+        internationalize();
+    }
 
-	private void about()
-	{
-		AboutDialog dialog = new AboutDialog(this);
-		centerScreen(dialog);
-	}
-	
-	public void setTitleAndTime(String elapsedTime)
-	{
-		setTitle(NAME_AND_VERSION + elapsedTime);
-	}
+    /**
+     * * Launch the application.
+     */
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Throwable e) {
+            System.out.println(lookAndFeelNotFound);
+        }
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    MainWindow frame = GUIFactory.MainWindowFactory.getInstance();
+                    centerScreen(frame);
+                    frame.setIconImage(AboutDialog.getBufferedImage(this));
+                    frame.setVisible(true);
+                    Runtime.getRuntime().addShutdownHook(new ShutdownHook(frame));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the frame.
-	 */
-	public MainWindow() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) 
-			{
-				promptBeforeExit();
-			}
-		});
-		setResizable(false);
-		setTitle(NAME_AND_VERSION);
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 841, 435);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		mnFile = new JMenu("File");
-		menuBar.add(mnFile);
-		
-		menuExit = new JMenuItem("Exit");
-		menuExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				promptBeforeExit();
-			}
-		});
-		mnFile.add(menuExit);
-		
-		mnHash = new JMenu("Hash");
-		menuBar.add(mnHash);
-		
-		copyItem = new JMenuItem("Copy to clipboard (Generated hash)");
-		copyItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				StringSelection stringSelection = new StringSelection(inputPanel.getGeneratedHash());
-				Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-				clipboard.setContents(stringSelection, null);
-			}
-		});
-		mnHash.add(copyItem);
+    /*	 * This function has been written by Davide Sestili in 2005	 */ public static void centerScreen(Component window) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        int w = window.getSize().width;
+        int h = window.getSize().height;
+        int x = (dim.width - w) / 2;
+        int y = (dim.height - h) / 2;
+        window.setLocation(x, y);
+    }
 
-		pasteItem = new JMenuItem("Paste from clipboard (Compare with)");
-		pasteItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) 
-			{
-				try 
-				{
-					Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-					String hash = (String) clipboard.getData(DataFlavor.stringFlavor);
-					inputPanel.pasteHash(hash);
-				} 
-				catch(Exception ex)
-				{
+    public void closeApp() {
+        if (workerThread != null) {
+            workerThread.interruptOperation();
+            try {
+                workerThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
-				} 
-			}
-		});
-		mnHash.add(pasteItem);
+    private void promptBeforeExit() {
+        int result = JOptionPane.showConfirmDialog(null, quit, quitTitle, JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }
 
-	    mnLEF = new JMenu("Look and Feel");
-	    menuBar.add(mnLEF);
+    private void about() {
+        AboutDialog dialog = new AboutDialog(this);
+        centerScreen(dialog);
+    }
 
-	    systemLEF = new JMenuItem("System");
-	    systemLEF.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	try 
-	        	{
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-					SwingUtilities.updateComponentTreeUI(MainWindow.this);
-				} 
-	        	catch(Exception ex) 
-	        	{
-					JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
-				}
-	        }
-	    });
-	    mnLEF.add(systemLEF);
+    public void setTitleAndTime(String elapsedTime) {
+        setTitle(NAME_AND_VERSION + elapsedTime);
+    }
 
-	    nimbusLEF = new JMenuItem("Nimbus");
-	    nimbusLEF.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	try 
-	        	{
-	        	    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-					SwingUtilities.updateComponentTreeUI(MainWindow.this);
-				} 
-	        	catch(Exception ex) 
-	        	{
-					JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
-				}
-	        }
-	    });
-	    mnLEF.add(nimbusLEF);
+    /**
+     * * Create the frame.
+     */
+    public MainWindow() {
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent arg0) {
+                promptBeforeExit();
+            }
+        });
+        setResizable(false);
+        setTitle(NAME_AND_VERSION);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setBounds(100, 100, 841, 435);
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+        mnFile = new JMenu("File");
+        menuBar.add(mnFile);
+        menuExit = new JMenuItem("Exit");
+        menuExit.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                promptBeforeExit();
+            }
+        });
+        mnFile.add(menuExit);
+        mnHash = new JMenu("Hash");
+        menuBar.add(mnHash);
+        copyItem = new JMenuItem("Copy to clipboard (Generated hash)");
+        copyItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                StringSelection stringSelection = new StringSelection(inputPanel.getGeneratedHash());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection, null);
+            }
+        });
+        mnHash.add(copyItem);
+        pasteItem = new JMenuItem("Paste from clipboard (Compare with)");
+        pasteItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                    String hash = (String) clipboard.getData(DataFlavor.stringFlavor);
+                    inputPanel.pasteHash(hash);
+                } catch (Exception ex) {
+                }
+            }
+        });
+        mnHash.add(pasteItem);
+        mnLEF = new JMenu("Look and Feel");
+        menuBar.add(mnLEF);
+        systemLEF = new JMenuItem("System");
+        systemLEF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    SwingUtilities.updateComponentTreeUI(MainWindow.this);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        mnLEF.add(systemLEF);
+        nimbusLEF = new JMenuItem("Nimbus");
+        nimbusLEF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+                    SwingUtilities.updateComponentTreeUI(MainWindow.this);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        mnLEF.add(nimbusLEF);
+        metalLEF = new JMenuItem("Metal");
+        metalLEF.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+                    SwingUtilities.updateComponentTreeUI(MainWindow.this);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        mnLEF.add(metalLEF);
+        mnLanguage = new JMenu("Language");
+        menuBar.add(mnLanguage);
+        mnEnglish = new JMenuItem("English");
+        mnEnglish.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setEnglishLanguage();
+            }
+        });
+        mnLanguage.add(mnEnglish);
+        mnItalian = new JMenuItem("Italian");
+        mnItalian.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setItalianLanguage();
+            }
+        });
+        mnLanguage.add(mnItalian);
+        mnSpanish = new JMenuItem("Espaï¿½ol");
+        mnSpanish.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                setSpanishLanguage();
+            }
+        });
+        mnLanguage.add(mnSpanish);
+        mnNewMenu = new JMenu("   ?   ");
+        menuBar.add(mnNewMenu);
+        menuAbout = new JMenuItem("About");
+        menuAbout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                about();
+            }
+        });
+        mnNewMenu.add(menuAbout);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        GridBagLayout gbl_contentPane = new GridBagLayout();
+        gbl_contentPane.columnWidths = new int[]{535, 0};
+        gbl_contentPane.rowHeights = new int[]{129, 37, 0, 0};
+        gbl_contentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+        gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+        contentPane.setLayout(gbl_contentPane);
+        inputPanel = GUIFactory.InputPanelFactory.getInstance();
+        inputPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
+        GridBagConstraints gbc_inputPanel = new GridBagConstraints();
+        gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;
+        gbc_inputPanel.insets = new Insets(10, 10, 10, 10);
+        gbc_inputPanel.gridx = 0;
+        gbc_inputPanel.gridy = 0;
+        contentPane.add(inputPanel, gbc_inputPanel);
+        btnStart = GUIFactory.MainButtonFactory.getInstance();
+        btnStart.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                validateInput();
+            }
+        });
+        GridBagConstraints gbc_btnStart = new GridBagConstraints();
+        gbc_btnStart.fill = GridBagConstraints.HORIZONTAL;
+        gbc_btnStart.insets = new Insets(10, 10, 10, 10);
+        gbc_btnStart.gridx = 0;
+        gbc_btnStart.gridy = 1;
+        contentPane.add(btnStart, gbc_btnStart);
+        statusPanel = GUIFactory.StatusPanelFactory.getInstance();
+        statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        GridBagConstraints gbc_statusPanel = new GridBagConstraints();
+        gbc_statusPanel.insets = new Insets(10, 10, 10, 10);
+        gbc_statusPanel.fill = GridBagConstraints.BOTH;
+        gbc_statusPanel.gridx = 0;
+        gbc_statusPanel.gridy = 2;
+        contentPane.add(statusPanel, gbc_statusPanel);
+        inputPanel.getTxtFile().addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    validateInput();
+                }
+            }
+        });
+        setEnglishLanguage();
+        setSize(841, 470);
+    }
 
-	    metalLEF = new JMenuItem("Metal");
-	    metalLEF.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	try 
-	        	{
-	        		UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-					SwingUtilities.updateComponentTreeUI(MainWindow.this);
-				} 
-	        	catch(Exception ex) 
-	        	{
-					JOptionPane.showMessageDialog(null, lookAndFeelNotFound, notFound, JOptionPane.INFORMATION_MESSAGE);
-				}
-	        }
-	    });
-	    mnLEF.add(metalLEF);
+    private void internationalize() {
+        mnFile.setText(getResourceBundle().getString("menu.file"));
+        menuExit.setText(getResourceBundle().getString("menu.exit"));
+        mnHash.setText(getResourceBundle().getString("menu.hash"));
+        copyItem.setText(getResourceBundle().getString("menu.copyItem"));
+        pasteItem.setText(getResourceBundle().getString("menu.pasteItem"));
+        mnLEF.setText(getResourceBundle().getString("menu.lookandfeel"));
+        systemLEF.setText(getResourceBundle().getString("menu.lookandfeel.system"));
+        nimbusLEF.setText(getResourceBundle().getString("menu.lookandfeel.nimbus"));
+        metalLEF.setText(getResourceBundle().getString("menu.lookandfeel.metal"));
+        mnNewMenu.setText(getResourceBundle().getString("menu.newMenu"));
+        menuAbout.setText(getResourceBundle().getString("menu.about"));
+        mnLanguage.setText(getResourceBundle().getString("menu.language"));
+        mnEnglish.setText(getResourceBundle().getString("menu.language.english"));
+        mnItalian.setText(getResourceBundle().getString("menu.language.italian"));
+        mnSpanish.setText(getResourceBundle().getString("menu.language.spanish"));
+        inputPanel.internationalize();
+        JButton btnStart = GUIFactory.MainButtonFactory.getInstance();
+        btnStart.setText(getResourceBundle().getString("button.start"));
+        statusPanel.internationalize();
+        lookAndFeelNotFound = getResourceBundle().getString("lookAndFeel.notFound.message");
+        notFound = getResourceBundle().getString("lookAndFeel.notFound");
+        cancelOperation = getResourceBundle().getString("button.start.cancel.message");
+        cancelOperationTitle = getResourceBundle().getString("button.start.cancel.message.title");
+        quit = getResourceBundle().getString("mainWindow.quit");
+        quitTitle = getResourceBundle().getString("mainWindow.quit.title");
+    }
 
-	    mnLanguage = new JMenu("Language");
-	    menuBar.add(mnLanguage);
-
-	    mnEnglish = new JMenuItem("English");
-	    mnEnglish.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	setEnglishLanguage();
-	        }
-	    });
-	    mnLanguage.add(mnEnglish);
-
-	    mnItalian = new JMenuItem("Italian");
-	    mnItalian.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	setItalianLanguage();
-	        }
-	    });
-	    mnLanguage.add(mnItalian);
-
-	    mnSpanish = new JMenuItem("Español");
-	    mnSpanish.addActionListener(new ActionListener()
-	    {
-	        public void actionPerformed(ActionEvent e)
-	        {
-	        	setSpanishLanguage();
-	        }
-	    });
-	    mnLanguage.add(mnSpanish);
-
-		mnNewMenu = new JMenu("   ?   ");
-		menuBar.add(mnNewMenu);
-		
-		menuAbout = new JMenuItem("About");
-		menuAbout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				about();
-			}
-		});
-		mnNewMenu.add(menuAbout);
-
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{535, 0};
-		gbl_contentPane.rowHeights = new int[]{129, 37, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
-		
-		inputPanel = GUIFactory.InputPanelFactory.getInstance();
-		inputPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		GridBagConstraints gbc_inputPanel = new GridBagConstraints();
-		gbc_inputPanel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_inputPanel.insets = new Insets(10, 10, 10, 10);
-		gbc_inputPanel.gridx = 0;
-		gbc_inputPanel.gridy = 0;
-		contentPane.add(inputPanel, gbc_inputPanel);
-		
-		btnStart = GUIFactory.MainButtonFactory.getInstance();
-		btnStart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				validateInput();
-			}
-		});
-
-		GridBagConstraints gbc_btnStart = new GridBagConstraints();
-		gbc_btnStart.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnStart.insets = new Insets(10, 10, 10, 10);
-		gbc_btnStart.gridx = 0;
-		gbc_btnStart.gridy = 1;
-		contentPane.add(btnStart, gbc_btnStart);
-		
-		statusPanel = GUIFactory.StatusPanelFactory.getInstance();
-		statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		GridBagConstraints gbc_statusPanel = new GridBagConstraints();
-		gbc_statusPanel.insets = new Insets(10, 10, 10, 10);
-		gbc_statusPanel.fill = GridBagConstraints.BOTH;
-		gbc_statusPanel.gridx = 0;
-		gbc_statusPanel.gridy = 2;
-		contentPane.add(statusPanel, gbc_statusPanel);
-
-		inputPanel.getTxtFile().addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) 
-			{
-			    if(e.getKeyCode() == KeyEvent.VK_ENTER)
-			    {
-			    	validateInput();
-			    }
-			}
-		});
-		
-		setEnglishLanguage();
-		
-		setSize(841, 470);
-	}
-
-	private void internationalize()
-	{
-		mnFile.setText(getResourceBundle().getString("menu.file"));
-		menuExit.setText(getResourceBundle().getString("menu.exit"));
-		mnHash.setText(getResourceBundle().getString("menu.hash"));
-		copyItem.setText(getResourceBundle().getString("menu.copyItem"));
-		pasteItem.setText(getResourceBundle().getString("menu.pasteItem"));
-		mnLEF.setText(getResourceBundle().getString("menu.lookandfeel"));
-		systemLEF.setText(getResourceBundle().getString("menu.lookandfeel.system"));
-		nimbusLEF.setText(getResourceBundle().getString("menu.lookandfeel.nimbus"));
-		metalLEF.setText(getResourceBundle().getString("menu.lookandfeel.metal"));
-		mnNewMenu.setText(getResourceBundle().getString("menu.newMenu"));
-		menuAbout.setText(getResourceBundle().getString("menu.about"));
-		mnLanguage.setText(getResourceBundle().getString("menu.language"));
-		mnEnglish.setText(getResourceBundle().getString("menu.language.english"));
-		mnItalian.setText(getResourceBundle().getString("menu.language.italian"));
-		mnSpanish.setText(getResourceBundle().getString("menu.language.spanish"));
-
-		inputPanel.internationalize();
-		
-		JButton btnStart = GUIFactory.MainButtonFactory.getInstance();
-		btnStart.setText(getResourceBundle().getString("button.start"));
-		
-		statusPanel.internationalize();
-		
-		lookAndFeelNotFound = getResourceBundle().getString("lookAndFeel.notFound.message");
-		notFound = getResourceBundle().getString("lookAndFeel.notFound");
-		
-		cancelOperation = getResourceBundle().getString("button.start.cancel.message");
-		cancelOperationTitle = getResourceBundle().getString("button.start.cancel.message.title");
-		
-		quit = getResourceBundle().getString("mainWindow.quit");
-		quitTitle = getResourceBundle().getString("mainWindow.quit.title");
-	}
-
-	private void validateInput()
-	{
-		if(inputPanel.isEnabled())
-		{
-			File file = new File(inputPanel.getFileName());
-
-			if(!file.exists())
-			{
-				Object[] arguments = { file.getName() };
-				
-				String output = Utils.getInternationalizedString(arguments, "button.start.warning.message");
-				
-				String label = getResourceBundle().getString("button.start.warning");
-				
-				JOptionPane.showMessageDialog(this, output, label, JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			if(!file.isFile())
-			{
-				workerThread = new DirectoryWorkerThread(file);
-				workerThread.start();
-			}
-			else
-			{
-				workerThread = new WorkerThread(file);
-				workerThread.start();
-			}
-		}
-		else
-		{
-			int result = JOptionPane.showConfirmDialog(null, cancelOperation, cancelOperationTitle, JOptionPane.YES_NO_OPTION);
-			if(result == JOptionPane.YES_OPTION)
-			{
-				workerThread.interruptOperation();
-			}
-		}
-	}
-	
+    private void validateInput() {
+        if (inputPanel.isEnabled()) {
+            File file = new File(inputPanel.getFileName());
+            if (!file.exists()) {
+                Object[] arguments = {file.getName()};
+                String output = Utils.getInternationalizedString(arguments, "button.start.warning.message");
+                String label = getResourceBundle().getString("button.start.warning");
+                JOptionPane.showMessageDialog(this, output, label, JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (!file.isFile()) {
+                workerThread = new DirectoryWorkerThread(file);
+                workerThread.start();
+            } else {
+                workerThread = new WorkerThread(file);
+                workerThread.start();
+            }
+        } else {
+            int result = JOptionPane.showConfirmDialog(null, cancelOperation, cancelOperationTitle, JOptionPane.YES_NO_OPTION);
+            if (result == JOptionPane.YES_OPTION) {
+                workerThread.interruptOperation();
+            }
+        }
+    }
 }
