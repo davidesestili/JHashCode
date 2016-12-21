@@ -27,6 +27,7 @@ import it.dsestili.jhashcode.core.Core;
 import it.dsestili.jhashcode.core.IProgressListener;
 import it.dsestili.jhashcode.core.ProgressEvent;
 import it.dsestili.jhashcode.gui.MainWindow;
+import java.security.MessageDigest;
 
 public class TestSingleFile implements IProgressListener 
 {
@@ -67,7 +68,11 @@ public class TestSingleFile implements IProgressListener
 				return;
 			}
 			
-			final Core core = new Core(file, "SHA-1");
+                        String algorithm = "SHA-224";
+                        MessageDigest.getInstance(algorithm);
+                        System.out.println("Algorithm " + algorithm + " exist!");
+                        
+			final Core core = new Core(file, algorithm);
 			core.addIProgressListener(this);
 
 			/*
@@ -103,7 +108,10 @@ public class TestSingleFile implements IProgressListener
 	
 	public static void main(String[] args) 
 	{
-		if(args.length > 0)
+            new TestSingleFile().test("/home/dsestili/Scaricati/jdk-8u111-nb-8_2-linux-x64.sh");
+            
+            /*
+            if(args.length > 0)
 		{
 			new TestSingleFile().test(args[0]);
 		}
@@ -111,6 +119,7 @@ public class TestSingleFile implements IProgressListener
 		{
 			System.out.println("Parameter missing!");
 		}
+*/
 	}
 
 	public void progressEvent(ProgressEvent event) 
