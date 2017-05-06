@@ -185,7 +185,7 @@ public class Utils
 			
 			for(Vector<String> info : hashList)
 			{
-				String line = info.get(1) + " " + info.get(0) + "\n";
+				String line = info.get(1) + " *" + info.get(0) + "\n";
 				byte[] data = line.getBytes();
 				bos.write(data, 0, data.length);
 			}
