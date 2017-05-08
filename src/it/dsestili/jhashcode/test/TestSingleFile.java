@@ -56,15 +56,15 @@ public class TestSingleFile implements IProgressListener
 			System.out.println("File name: " + fileName);
 			File file = new File(fileName);
 			
-			if(!file.isFile())
-			{
-				System.out.println("Is not a file!");
-				return;
-			}
-			
 			if(!file.exists())
 			{
 				System.out.println("File does not exist!");
+				return;
+			}
+
+                        if(!file.isFile())
+			{
+				System.out.println("Is not a file!");
 				return;
 			}
 			
@@ -108,18 +108,14 @@ public class TestSingleFile implements IProgressListener
 	
 	public static void main(String[] args) 
 	{
-            new TestSingleFile().test("/home/dsestili/Scaricati/jdk-8u111-nb-8_2-linux-x64.sh");
-            
-            /*
             if(args.length > 0)
-		{
-			new TestSingleFile().test(args[0]);
-		}
-		else
-		{
-			System.out.println("Parameter missing!");
-		}
-*/
+            {
+                    new TestSingleFile().test(args[0]);
+            }
+            else
+            {
+                    System.out.println("Parameter missing!");
+            }
 	}
 
 	public void progressEvent(ProgressEvent event) 
