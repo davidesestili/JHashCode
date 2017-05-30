@@ -20,18 +20,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.io.File;
 
+import it.dsestili.jhashcode.core.Core;
 import it.dsestili.jhashcode.core.DirectoryInfo;
 import it.dsestili.jhashcode.core.DirectoryScanner;
-import it.dsestili.jhashcode.core.DirectoryScannerNotRecursive;
 import it.dsestili.jhashcode.core.DirectoryScannerRecursive;
-import it.dsestili.jhashcode.core.FolderMode;
+import it.dsestili.jhashcode.core.IProgressListener;
 import it.dsestili.jhashcode.core.IScanProgressListener;
 import it.dsestili.jhashcode.core.ProgressEvent;
 import it.dsestili.jhashcode.gui.MainWindow;
 
-public class TestDirectoryScanner implements IScanProgressListener
+public class TestDirectoryScanner implements IProgressListener, IScanProgressListener
 {
-	private void test(String directoryParam)
+	private void test(String directoryParam, String algorithm)
 	{
 		try
 		{
@@ -47,23 +47,7 @@ public class TestDirectoryScanner implements IScanProgressListener
 				throw new Exception("Directory does not exist");
 			}
 			
-			DirectoryScanner scanner = null;
-			
-			FolderMode folderMode = FolderMode.SUBFOLDERS_WITH_RECURSIVE_ALGORITHM;
-			
-			if(folderMode == FolderMode.SUBFOLDERS_WITH_NOT_RECURSIVE_ALGORITHM)
-			{
-				scanner = new DirectoryScannerNotRecursive(directory, true);
-			}
-			else if(folderMode == FolderMode.SUBFOLDERS_WITH_RECURSIVE_ALGORITHM)
-			{
-				scanner = new DirectoryScannerRecursive(directory, true);
-			}
-			else if(folderMode == FolderMode.DO_NOT_SCAN_SUBFOLDERS)
-			{
-				scanner = new DirectoryScannerRecursive(directory, false);
-			}
-			
+			DirectoryScanner scanner = new DirectoryScannerRecursive(directory, true);
 			scanner.addIScanProgressListener(this);
 			
 			DirectoryInfo di = scanner.getFiles();
@@ -71,6 +55,14 @@ public class TestDirectoryScanner implements IScanProgressListener
 			long totalSize = di.getTotalSize();
 			
 			System.out.println("Scanning completed, " + files.length + " files found, " + totalSize + " bytes (total size)");
+			
+			for(File f : files)
+			{
+				Core core = new Core(f, algorithm);
+				core.addIProgressListener(this);
+				String hash = core.generateHash();
+				System.out.println(hash + " *" + f.getAbsolutePath());
+			}
 		}
 		catch(InterruptedException e)
 		{
@@ -92,17 +84,22 @@ public class TestDirectoryScanner implements IScanProgressListener
 	
 	public static void main(String[] args) 
 	{
-		if(args.length == 1)
+		if(args.length > 1)
 		{
-			new TestDirectoryScanner().test(args[0]);
+			new TestDirectoryScanner().test(args[0], args[1]);
 		}
 		else
 		{
-			System.out.println("A parameter is needed!");
+			System.out.println("Usage: param1: fileName, param2: algorithm");
 		}
 	}
 
 	public void scanProgressEvent(ProgressEvent event) 
+	{
+		System.out.println(event);
+	}
+
+	public void progressEvent(ProgressEvent event) 
 	{
 		System.out.println(event);
 	}

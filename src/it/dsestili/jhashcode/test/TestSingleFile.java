@@ -29,7 +29,7 @@ import java.security.MessageDigest;
 public class TestSingleFile implements IProgressListener 
 {
 
-	private void test(String fileName)
+	private void test(String fileName, String algorithm)
 	{
 		try
 		{
@@ -56,7 +56,6 @@ public class TestSingleFile implements IProgressListener
 				return;
 			}
 			
-            String algorithm = "SHA-224";
             MessageDigest.getInstance(algorithm);
             System.out.println("Algorithm " + algorithm + " exist!");
                         
@@ -85,13 +84,13 @@ public class TestSingleFile implements IProgressListener
 	
 	public static void main(String[] args) 
 	{
-        if(args.length > 0)
+        if(args.length > 1)
         {
-                new TestSingleFile().test(args[0]);
+                new TestSingleFile().test(args[0], args[1]);
         }
         else
         {
-                System.out.println("Parameter missing!");
+                System.out.println("Usage: param1: fileName, param2: algorithm");
         }
 	}
 
