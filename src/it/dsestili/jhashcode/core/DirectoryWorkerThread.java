@@ -114,7 +114,6 @@ public class DirectoryWorkerThread extends WorkerThread implements IScanProgress
 				currentProgressSize += currentFile.length();
 			}
 
-			setComplete();
 			showHash(hashList);
 		}
 		catch(EmptyFolderException e)
@@ -267,25 +266,6 @@ public class DirectoryWorkerThread extends WorkerThread implements IScanProgress
 		return " [" + avg + " " + Utils.getFriendlySize((long) avgProcessingRate) + "/s]";
 	}
 	
-	private void setComplete()
-	{
-		SwingUtilities.invokeLater(new Runnable() 
-		{
-			public void run() 
-			{
-				Object[] messageArguments = {
-						Utils.getFriendlySize(totalSize)
-					};
-				
-				String output = Utils.getInternationalizedString(messageArguments, "workerThread.status.total.complete.batch");
-				output += avgProcessingRate;
-				
-				statusPanel.setTotalStatus(output);
-				statusPanel.setTotalValue(100);
-			}
-		});
-	}
-
 	public void scanProgressEvent(final ProgressEvent event) 
 	{
 		SwingUtilities.invokeLater(new Runnable() 
