@@ -90,7 +90,7 @@ public class TestDirectoryScanner implements IProgressListener, IScanProgressLis
 		}
 		else
 		{
-			System.out.println("Usage: param1: fileName, param2: algorithm");
+			System.out.println("Usage: param1: folder, param2: algorithm");
 		}
 	}
 
