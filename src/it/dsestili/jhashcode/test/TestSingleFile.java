@@ -24,7 +24,6 @@ import it.dsestili.jhashcode.core.Core;
 import it.dsestili.jhashcode.core.IProgressListener;
 import it.dsestili.jhashcode.core.ProgressEvent;
 import it.dsestili.jhashcode.gui.MainWindow;
-import java.security.MessageDigest;
 
 public class TestSingleFile implements IProgressListener 
 {
@@ -56,9 +55,6 @@ public class TestSingleFile implements IProgressListener
 				return;
 			}
 			
-            MessageDigest.getInstance(algorithm);
-            System.out.println("Algorithm " + algorithm + " exist!");
-                        
 			Core core = new Core(file, algorithm);
 			core.addIProgressListener(this);
 
