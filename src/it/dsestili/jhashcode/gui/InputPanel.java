@@ -198,7 +198,6 @@ public class InputPanel extends JPanel
 		add(lblFile, gbc_lblFile);
 		
 		txtFile = new JTextField();
-		txtFile.setText("You can drop a file or a directory here");
 		txtFile.setToolTipText("You can drop a file or a directory here");
 		GridBagConstraints gbc_txtFile = new GridBagConstraints();
 		gbc_txtFile.weighty = 1.0;
@@ -290,7 +289,6 @@ public class InputPanel extends JPanel
 		
 		lblAlgorithm.setText(resourceBundle.getString("label.algorithm"));
 		lblFile.setText(resourceBundle.getString("label.file"));
-		txtFile.setText(resourceBundle.getString("field.file"));
 		lblGenerated.setText(resourceBundle.getString("label.generated"));
 		lblCompare.setText(resourceBundle.getString("label.compare"));
 		btnCompare.setText(resourceBundle.getString("button.compare"));

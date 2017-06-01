@@ -44,15 +44,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JTextArea;
-import javax.swing.JCheckBox;
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JButton btnDonation;
-	private JCheckBox chkAgreement;
 
 	/**
 	 * Launch the application.
@@ -179,83 +176,19 @@ public class AboutDialog extends JDialog {
 		txtLicense.setSelectionEnd(0);
 		txtLicense.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(txtLicense);
-		scrollPane.setPreferredSize(new Dimension(4, 150));
+		scrollPane.setPreferredSize(new Dimension(4, 350));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.insets = new Insets(0, 0, 5, 0);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 0;
 		gbc_textArea.gridy = 4;
 		gbc_textArea.gridwidth = 2;
+		gbc_textArea.gridheight = 1;
 		contentPanel.add(scrollPane, gbc_textArea);
 
-		JLabel lblNewLabel = new JLabel("Donation agreement:");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 5;
-		gbc_lblNewLabel.gridwidth = 2;
-		contentPanel.add(lblNewLabel, gbc_lblNewLabel);
-
-		JTextArea txtAgreement = new JTextArea();
-		txtAgreement.setEditable(false);
-		txtAgreement.setLineWrap(true);
-		txtAgreement.setText(getDonationAgreement());
-		txtAgreement.setSelectionStart(0);
-		txtAgreement.setSelectionEnd(0);
-		JScrollPane scrollPaneAgreement = new JScrollPane(txtAgreement);
-		scrollPaneAgreement.setPreferredSize(new Dimension(4, 50));
-		GridBagConstraints gbc_txtAgreement = new GridBagConstraints();
-		gbc_txtAgreement.insets = new Insets(0, 0, 5, 0);
-		gbc_txtAgreement.fill = GridBagConstraints.BOTH;
-		gbc_txtAgreement.gridx = 0;
-		gbc_txtAgreement.gridy = 6;
-		gbc_txtAgreement.gridwidth = 2;
-		contentPanel.add(scrollPaneAgreement, gbc_txtAgreement);
-
-		chkAgreement = new JCheckBox("I accept the terms");
-		chkAgreement.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent arg0) 
-			{
-				btnDonation.setEnabled(chkAgreement.isSelected());
-			}
-		});
-		GridBagConstraints gbc_chkAgreement = new GridBagConstraints();
-		gbc_chkAgreement.insets = new Insets(0, 0, 5, 0);
-		gbc_chkAgreement.gridx = 0;
-		gbc_chkAgreement.gridy = 7;
-		gbc_chkAgreement.gridwidth = 2;
-		contentPanel.add(chkAgreement, gbc_chkAgreement);
-
-		btnDonation = new JButton("Make a Donation");
-		btnDonation.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent e) 
-			{
-				try 
-				{
-					if(Desktop.isDesktopSupported())
-					{
-						Desktop desktop = Desktop.getDesktop();
-						desktop.browse(new URI("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=davide%2esestili%40gmail%2ecom&lc=US&item_name=Donation%20to%20Davide%20Sestili&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest"));
-					}
-				} 
-				catch(Throwable t) 
-				{
-					t.printStackTrace();
-				}
-			}
-		});
-		btnDonation.setEnabled(false);
-		GridBagConstraints gbc_btnDonation = new GridBagConstraints();
-		gbc_btnDonation.gridx = 0;
-		gbc_btnDonation.gridy = 8;
-		gbc_btnDonation.gridwidth = 2;
-		contentPanel.add(btnDonation, gbc_btnDonation);
-
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
@@ -264,41 +197,12 @@ public class AboutDialog extends JDialog {
 			}
 		});
 		okButton.setActionCommand("OK");
-		buttonPane.add(okButton);
+		buttonPanel.add(okButton);
 		getRootPane().setDefaultButton(okButton);
-		
+
 		setVisible(true);
 	}
 
-	private String getDonationAgreement()
-	{
-		String agreement = "These terms are an agreement between Davide Sestili and you.\n" +
-				"By making a donation to Davide Sestili using the below form\n" + 
-				"(or in any other way), you accept these terms and signify that\n" +
-				"you understand and agree to these terms. Your donation to\n" +
-				"Davide Sestili is entirely voluntary and is not a\n" +
-				"fee/compensation/requirement for any services, goods, benefits,\n" +
-				"or advantages, and making a donation to Davide Sestili does not\n" +
-				"entitle you to any services, goods, benefits, or advantages. You\n" +
-				"grant to Davide Sestili the irrevocable, perpetual, and unlimited\n" +
-				"right to use the money (donated by you) in any way and for any\n" +
-				"purpose they see fit (including, but not limited to, to pay their\n" +
-				"personal bills and other expenses not connected with the JHashCode\n" +
-				"project), and they are not obligated to disclose the way and purpose\n" +
-				"to any party unless required by applicable law. Furthermore, they\n" +
-				"are not obligated to (and will not) issue any certificate, statement,\n" +
-				"confirmation, invoice, or receipt for your donation (however, the\n" +
-				"payment processor may email a receipt and the transaction details\n" +
-				"to you). Although JHashCode is free software, to our best knowledge the\n" +
-				"JHashCode project does not have any tax exempt status. YOUR DONATION MAY\n" +
-				"OR MAY NOT BE TAX-DEDUCTIBLE; PLEASE CONSULT THIS WITH YOUR TAX\n" +
-				"ADVISOR. WE DISCLAIM ANY AND ALL WARRANTIES AND LIABILITY. We will\n" +
-				"not publish/disclose your name or e-mail address without your consent,\n" +
-				"unless required by applicable law or regulation. YOUR DONATION IS\n" +
-				"NON-REFUNDABLE.";
-		return agreement;
-	}
-	
 	private String getLicense()
 	{
 		String license =

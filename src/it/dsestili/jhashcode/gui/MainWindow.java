@@ -62,7 +62,7 @@ public class MainWindow extends JFrame {
     private InputPanel inputPanel;
     private StatusPanel statusPanel;
     private JButton btnStart;
-    private static final String NAME_AND_VERSION = "JHashCode 3.0a";
+    private static final String NAME_AND_VERSION = "JHashCode";
     private static Locale enLocale, itLocale, esLocale, currentLocale;
     private static ResourceBundle resourceBundle;
     private static String lookAndFeelNotFound;
@@ -333,7 +333,7 @@ public class MainWindow extends JFrame {
         gbc_btnStart.gridy = 1;
         contentPane.add(btnStart, gbc_btnStart);
         statusPanel = GUIFactory.StatusPanelFactory.getInstance();
-        statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+        statusPanel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
         GridBagConstraints gbc_statusPanel = new GridBagConstraints();
         gbc_statusPanel.insets = new Insets(10, 10, 10, 10);
         gbc_statusPanel.fill = GridBagConstraints.BOTH;
