@@ -149,7 +149,7 @@ public class MainWindow extends JFrame {
         });
     }
 
-    /*	 * This function has been written by Davide Sestili in 2005	 */ public static void centerScreen(Component window) {
+    public static void centerScreen(Component window) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int w = window.getSize().width;
         int h = window.getSize().height;

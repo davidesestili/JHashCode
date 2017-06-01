@@ -23,8 +23,6 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Graphics2D;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -32,13 +30,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridBagLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -47,12 +42,9 @@ import java.io.InputStream;
 import java.net.URI;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-
 import javax.swing.JTextArea;
 import javax.swing.JCheckBox;
-
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
@@ -1016,7 +1008,6 @@ public class AboutDialog extends JDialog {
 			{
 				is = obj.getClass().getResourceAsStream("img.jpg");
 				bufferedImage = ImageIO.read(is);
-				bufferedImage = scale(bufferedImage);
 			}
 			catch(Throwable t) 
 			{
@@ -1039,24 +1030,5 @@ public class AboutDialog extends JDialog {
 		}
 
 		return bufferedImage;
-	}
-
-	private static final int thumbnailMaxSize = 150;
-	
-	/*
-	 * This function has been written by Davide Sestili in 2011
-	 */
-	private static BufferedImage scale(BufferedImage source)
-	{
-		int max = Math.max(source.getWidth(), source.getHeight());
-		double ratio = (double) thumbnailMaxSize / max;
-		AffineTransform transform = AffineTransform.getScaleInstance(ratio, ratio);
-		int thumbnailWidth =  (int) (ratio * source.getWidth());
-		int thumbnailHeight = (int) (ratio * source.getHeight());
-
-		BufferedImage result = new BufferedImage(thumbnailWidth, thumbnailHeight, source.getType());
-		Graphics2D graphics = result.createGraphics();
-		graphics.drawRenderedImage(source, transform);
-		return result;
 	}
 }
