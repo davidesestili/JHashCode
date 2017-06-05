@@ -183,7 +183,7 @@ public class AboutDialog extends JDialog {
 		gbc_textArea.gridx = 0;
 		gbc_textArea.gridy = 4;
 		gbc_textArea.gridwidth = 2;
-		gbc_textArea.gridheight = 1;
+		gbc_textArea.gridheight = 5;
 		contentPanel.add(scrollPane, gbc_textArea);
 
 		JPanel buttonPanel = new JPanel();
