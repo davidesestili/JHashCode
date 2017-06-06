@@ -139,7 +139,6 @@ public class MainWindow extends JFrame {
                 try {
                     MainWindow frame = GUIFactory.MainWindowFactory.getInstance();
                     centerScreen(frame);
-                    frame.setIconImage(AboutDialog.getBufferedImage(this));
                     frame.setVisible(true);
                     Runtime.getRuntime().addShutdownHook(new ShutdownHook(frame));
                 } catch (Exception e) {
@@ -174,11 +173,6 @@ public class MainWindow extends JFrame {
         if (result == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
-    }
-
-    private void about() {
-        AboutDialog dialog = new AboutDialog(this);
-        centerScreen(dialog);
     }
 
     public void setTitleAndTime(String elapsedTime) {
@@ -299,7 +293,7 @@ public class MainWindow extends JFrame {
         menuAbout = new JMenuItem("About");
         menuAbout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                about();
+                JOptionPane.showMessageDialog(null, "JHashCode (C) 2017 Davide Sestili");
             }
         });
         mnNewMenu.add(menuAbout);
