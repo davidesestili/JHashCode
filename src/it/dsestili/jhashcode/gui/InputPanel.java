@@ -147,7 +147,6 @@ public class InputPanel extends JPanel
 		group.add(btnAlgorithmMD2);
 		
 		btnAlgorithmMD5 = new JRadioButton("MD5");
-//		btnAlgorithmMD5.setSelected(true);
 		GridBagConstraints gbc_btnAlgorithmMD5 = new GridBagConstraints();
 		gbc_btnAlgorithmMD5.insets = new Insets(10, 0, 10, 10);
 		gbc_btnAlgorithmMD5.gridx = 2;
@@ -156,6 +155,7 @@ public class InputPanel extends JPanel
 		group.add(btnAlgorithmMD5);
 		
 		btnAlgorithmSHA1 = new JRadioButton("SHA-1");
+		btnAlgorithmSHA1.setSelected(true);
 		GridBagConstraints gbc_btnAlgorithmSHA1 = new GridBagConstraints();
 		gbc_btnAlgorithmSHA1.insets = new Insets(10, 0, 10, 10);
 		gbc_btnAlgorithmSHA1.gridx = 3;
@@ -164,7 +164,6 @@ public class InputPanel extends JPanel
 		group.add(btnAlgorithmSHA1);
 		
 		btnAlgorithmSHA256 = new JRadioButton("SHA-256");
-		btnAlgorithmSHA256.setSelected(true);
 		GridBagConstraints gbc_btnAlgorithmSHA256 = new GridBagConstraints();
 		gbc_btnAlgorithmSHA256.insets = new Insets(10, 0, 10, 10);
 		gbc_btnAlgorithmSHA256.gridx = 4;
