@@ -281,9 +281,13 @@ public class DirectoryWorkerThread extends WorkerThread implements IScanProgress
 		});
 	}
 
-	@SuppressWarnings("serial")
 	private static class EmptyFolderException extends Exception
 	{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		public EmptyFolderException()
 		{
 			super();

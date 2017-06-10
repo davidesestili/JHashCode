@@ -118,7 +118,6 @@ public class Core
 		}
 	}
 	
-	@SuppressWarnings("resource")
 	private static String byteArray2Hex(final byte[] hash) 
 	{
 	    Formatter formatter = new Formatter();
@@ -128,9 +127,11 @@ public class Core
 	        formatter.format("%02x", b);
 	    }
 	    
-	    return formatter.toString();
+	    String result = formatter.toString();
+	    formatter.close();
+	    return result;
 	}
-	
+
 	private static void close(InputStream is)
 	{
 		if(is != null)

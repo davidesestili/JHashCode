@@ -53,10 +53,13 @@ import java.util.ResourceBundle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
 
-    private WorkerThread workerThread = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private WorkerThread workerThread = null;
     private static JMenuItem mnFile, menuExit, mnHash, copyItem, pasteItem, mnLEF, systemLEF, nimbusLEF, metalLEF, mnNewMenu, menuAbout, mnLanguage, mnEnglish, mnItalian, mnSpanish;
     private JPanel contentPane;
     private InputPanel inputPanel;

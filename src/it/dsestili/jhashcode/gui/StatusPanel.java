@@ -31,8 +31,11 @@ import java.util.ResourceBundle;
 
 import javax.swing.JProgressBar;
 
-@SuppressWarnings("serial")
 public class StatusPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel lblStatus, lblTotal;
 	private JProgressBar progressBar, progressBar2;
 	private JLabel lblLabel;

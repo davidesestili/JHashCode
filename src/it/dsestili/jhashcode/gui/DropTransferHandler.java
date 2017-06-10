@@ -26,9 +26,13 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
 
-@SuppressWarnings("serial")
 public class DropTransferHandler extends TransferHandler
 {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) 
