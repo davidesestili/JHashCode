@@ -2,8 +2,6 @@ The program allows you to generate the hashes with the chosen algorithm (MD2, MD
 
 Java Runtime 6 or higher is required.
 
-OpenPGP Key ID: 0x024E566D
-
 JHashCode is an intellectual property of Davide Sestili
 
 Thanks to DDR Diego for translating in spanish language
