@@ -2,6 +2,6 @@ The program allows you to generate the hashes with the chosen algorithm (MD2, MD
 
 Java Runtime 6 or higher is required.
 
-JHashCode is an intellectual property of Davide Sestili
+JHashCode Copyright (C) 2013-2016 Davide Sestili
 
 Thanks to DDR Diego for translating in spanish language
